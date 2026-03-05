@@ -12,10 +12,8 @@ end
 local function FetchPlayerRoles(source)
     local discordId = GetDiscordId(source)
     if not discordId then return end
-
     local guildId = Config.Discord.GuildId
     local botToken = Config.Discord.BotToken
-
     if guildId == "" or botToken == "" then
         print("^1[celestia_admin] ERROR: BotToken o GuildId no configurados en discord.lua^7")
         return
@@ -27,7 +25,6 @@ local function FetchPlayerRoles(source)
             if data and data.roles then
                 playerRoles[source] = data.roles
             end
-            print(json.encode(data.roles))
         else
             print(("^1[celestia_admin] ERROR: No se pudieron obtener roles para %s (Status: %s)^7"):format(GetPlayerName(source), status))
         end
@@ -50,24 +47,22 @@ end)
 
 function HasDiscordRole(source, roleKey)
     if source == 0 then return true end
-    
     local roles = playerRoles[source]
     if not roles then 
         FetchPlayerRoles(source)
         return false 
     end
-
     local targetRoleId = Config.Discord.Roles[roleKey]
-    if not targetRoleId or targetRoleId == "ID_AQUÍ" then return false end
-
+    if not targetRoleId or targetRoleId == "" then
+        TriggerClientEvent('QBCore:Notify', source, "No tienes permisos suficientes (Rol no configurado)", "error")
+        return false 
+    end
     for _, playerRoleId in ipairs(roles) do
         if playerRoleId == targetRoleId then
-            print(("^2[celestia_admin] El jugador %s tiene el rol de Discord: %s (%s)^7"):format(GetPlayerName(source), roleKey, targetRoleId))
             return true
         end
     end
-
-    print(("^1[celestia_admin] El jugador %s NO tiene el rol de Discord: %s (%s)^7"):format(GetPlayerName(source), roleKey, targetRoleId))
+    TriggerClientEvent('QBCore:Notify', source, "No tienes permisos suficientes para realizar esta acción", "error")
     return false
 end
 
@@ -78,8 +73,8 @@ function IsStaff(source)
         FetchPlayerRoles(source)
         return false 
     end
-    for _, targetRoleId in pairs(Config.Discord.Roles) do
-        if targetRoleId ~= "ID_AQUÍ" then
+    for roleKey, targetRoleId in pairs(Config.Discord.Roles) do
+        if targetRoleId and targetRoleId ~= "" then
             for _, playerRoleId in ipairs(roles) do
                 if playerRoleId == targetRoleId then
                     return true

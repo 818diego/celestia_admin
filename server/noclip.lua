@@ -4,8 +4,6 @@ QBCore.Commands.Add('noclip', 'Activar/Desactivar NoClip (Staff)', {}, false, fu
     local canNoclip = HasDiscordRole(source, 'admin')
     if canNoclip then
         TriggerClientEvent('celestia_admin:client:toggleNoClip', source)
-    else
-        TriggerClientEvent('QBCore:Notify', source, "No tienes rango suficiente para usar NoClip", "error")
     end
 end)
 
