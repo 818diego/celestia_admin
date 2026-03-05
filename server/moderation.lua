@@ -224,7 +224,8 @@ QBCore.Commands.Add('adv', 'Advertir y encarcelar jugador. Uso: /adv [id] [tiemp
     warningsByIdentifier[targetIdentifier].count = warningsByIdentifier[targetIdentifier].count + 1
 
     local timeMsg = (minutes > 0) and (minutes .. " minutos") or "Indefinido (Permanente)"
-    TriggerClientEvent('celestia_admin:client:AdminJail', targetId, true, expiresAt, reason)
+    local durationMs = (minutes > 0) and (minutes * 60 * 1000) or 0
+    TriggerClientEvent('celestia_admin:client:AdminJail', targetId, true, durationMs, reason)
     
     notify(src, ('ID %d encarcelado por %s. Motivo: %s'):format(targetId, timeMsg, reason), 'success')
 end)

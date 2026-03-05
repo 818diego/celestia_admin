@@ -13,9 +13,10 @@ local function loadModel(model)
     return true
 end
 
-RegisterNetEvent('celestia_admin:client:AdminJail', function(status, expiresAt, reason)
+RegisterNetEvent('celestia_admin:client:AdminJail', function(status, durationMs, reason)
     local playerPed = PlayerPedId()
     local config = Config.AdminCommands.Moderation.AdminJail
+    local expiresAt = (durationMs and durationMs > 0) and (GetGameTimer() + durationMs) or 0
     
     isInAdminJail = status
     
@@ -56,22 +57,46 @@ RegisterNetEvent('celestia_admin:client:AdminJail', function(status, expiresAt, 
                 local currentPed = PlayerPedId()
                 local coords = GetEntityCoords(currentPed)
                 local dist = #(coords - vector3(config.Coords.x, config.Coords.y, config.Coords.z))
+                local timerText = "~r~ME HE PORTADO MAL :(~w~"
+                if expiresAt > 0 then
+                    local remaining = math.ceil((expiresAt - GetGameTimer()) / 1000)
+                    if remaining <= 0 then
+                        isInAdminJail = false
+                        TriggerEvent('celestia_admin:client:AdminJail', false)
+                        QBCore.Functions.Notify("Tu tiempo ha terminado", "success")
+                        break
+                    end
+                    local mins = math.floor(remaining / 60)
+                    local secs = remaining % 60
+                    timerText = timerText .. string.format("\n~y~Tiempo restante:~w~ %02d:%02d", mins, secs)
+                else
+                    timerText = timerText .. "\n~y~Tiempo restante:~w~ PERMANENTE"
+                end
+                timerText = timerText .. "\n~y~Motivo:~w~ " .. reason
+
+                SetTextScale(0.40, 0.40)
+                SetTextFont(4)
+                SetTextProportional(1)
+                SetTextColour(255, 255, 255, 215)
+                SetTextOutline()
+                SetTextEntry("STRING")
+                SetTextCentre(1)
+                AddTextComponentString(timerText)
+                DrawText(0.5, 0.90)
+
                 if dist > config.Radius then
                     SetEntityCoords(currentPed, config.Coords.x, config.Coords.y, config.Coords.z, false, false, false, true)
                     QBCore.Functions.Notify("No puedes salir de la prisión administrativa", "error")
                 end
+                
                 SetEntityVisible(currentPed, true)
                 SetLocalPlayerVisibleLocally(true)
                 ResetEntityAlpha(currentPed)
-                if expiresAt > 0 and os.time() >= expiresAt then
-                    isInAdminJail = false
-                    TriggerEvent('celestia_admin:client:AdminJail', false) -- Auto-liberación
-                    QBCore.Functions.Notify("Tu tiempo en la prisión administrativa ha terminado", "success")
-                end
-                DisableControlAction(0, 24, true) -- Attack
-                DisableControlAction(0, 25, true) -- Aim
+                
+                DisableControlAction(0, 24, true) 
+                DisableControlAction(0, 25, true) 
                 DisablePlayerFiring(PlayerId(), true)
-                Wait(500)
+                Wait(0)
             end
         end)
     else
