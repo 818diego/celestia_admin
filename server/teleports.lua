@@ -62,7 +62,9 @@ local function teleportTargetToAdmin(adminId, targetId)
     SetEntityCoords(targetPed, adminCoords.x, adminCoords.y, adminCoords.z)
 
     notify(adminId, ('Has traido al jugador ID %s'):format(targetId), 'success')
-    notify(targetId, ('Has sido teletransportado por un administrador. Seras devuelto en %s minutos.'):format(Config.BringBackTimeout or 5), 'primary')
+    notify(targetId,
+        ('Has sido teletransportado por un administrador. Seras devuelto en %s minutos.'):format(Config.BringBackTimeout or
+        5), 'primary')
 end
 
 local function returnTargetToPreviousPosition(adminId, targetId)
@@ -130,38 +132,40 @@ CreateThread(function()
 end)
 
 QBCore.Commands.Add('tptome', 'Traer jugador hacia ti. Uso: /tptome [id] (Staff)', {
-    {name = 'id', help = 'ID del jugador. Ejemplo: /tptome 12'}
+    { name = 'id', help = 'ID del jugador. Ejemplo: /tptome 12' }
 }, true, function(source, args)
     handleTeleportCommand(source, args, 'bring')
 end)
 
 QBCore.Commands.Add('tpdv', 'Devolver jugador a su ubicacion anterior. Uso: /tpdv [id] (Staff)', {
-    {name = 'id', help = 'ID del jugador. Ejemplo: /tpdv 12'}
+    { name = 'id', help = 'ID del jugador. Ejemplo: /tpdv 12' }
 }, true, function(source, args)
     handleTeleportCommand(source, args, 'bringback')
 end)
 
-QBCore.Commands.Add('coordstotp', 'Guardar tus coordenadas actuales para /tpcoords. Uso: /coords (Staff)', {}, false, function(source)
-    if not CheckPermission(source, 'tpcoords') then return end
-    local src = source
+QBCore.Commands.Add('coordstotp', 'Guardar tus coordenadas actuales para /tpcoords. Uso: /coords (Staff)', {}, false,
+    function(source)
+        if not CheckPermission(source, 'tpcoords') then return end
+        local src = source
 
-    local coords = getPlayerCoords(src)
-    if not coords then
-        notify(src, 'No se pudo obtener tu posicion actual', 'error')
-        return
-    end
+        local coords = getPlayerCoords(src)
+        if not coords then
+            notify(src, 'No se pudo obtener tu posicion actual', 'error')
+            return
+        end
 
-    copiedCoordsByAdmin[src] = {
-        x = coords.x,
-        y = coords.y,
-        z = coords.z
-    }
+        copiedCoordsByAdmin[src] = {
+            x = coords.x,
+            y = coords.y,
+            z = coords.z
+        }
 
-    notify(src, ('Coordenadas guardadas: x=%.2f, y=%.2f, z=%.2f'):format(coords.x, coords.y, coords.z), 'success')
-end)
+        notify(src, ('Coordenadas guardadas: x=%.2f, y=%.2f, z=%.2f'):format(coords.x, coords.y, coords.z), 'success')
+    end)
 
-QBCore.Commands.Add('tpcoords', 'Teletransportar jugador a coordenadas guardadas con /coords. Uso: /tpcoords [id] (Staff)', {
-    {name = 'id', help = 'ID del jugador. Ejemplo: /tpcoords 12'}
+QBCore.Commands.Add('tpcoords',
+    'Teletransportar jugador a coordenadas guardadas con /coords. Uso: /tpcoords [id] (Staff)', {
+    { name = 'id', help = 'ID del jugador. Ejemplo: /tpcoords 12' }
 }, true, function(source, args)
     if not CheckPermission(source, 'tpcoords') then return end
     local src = source
@@ -202,7 +206,7 @@ QBCore.Commands.Add('tpcoords', 'Teletransportar jugador a coordenadas guardadas
 end)
 
 QBCore.Commands.Add('tpplaza', 'Enviar a un jugador a la plaza central (Staff)', {
-    {name = 'id', help = 'ID del jugador. Ejemplo: /tpplaza 12'}
+    { name = 'id', help = 'ID del jugador. Ejemplo: /tpplaza 12' }
 }, true, function(source, args)
     if not CheckPermission(source, 'tpplaza') then return end
     local src = source
