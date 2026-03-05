@@ -16,6 +16,15 @@ Config.AdminCommands = {
         BanTableName = 'celestia_admin_bans', -- Nombre de la tabla SQL donde se guardan los baneos.
         DefaultKickReason = 'Expulsado por administracion.', -- Razon por defecto para /kick si no se envia texto.
         DefaultBanReason = 'Baneado por administracion.' -- Razon por defecto para /ban si no se envia texto.
+    },
+    Moderation = {
+        DefaultAdvReason = 'Conducta indebida.', -- Motivo por defecto para /adv si no se envia texto.
+        DefaultMuteReason = 'Comportamiento inapropiado en chat/voz.', -- Motivo por defecto para /mute y /mutearea.
+        DefaultMuteMinutes = 10, -- Duracion por defecto del mute en minutos si no se especifica.
+        MinMuteMinutes = 1, -- Duracion minima permitida para un mute en minutos.
+        MaxMuteMinutes = 240, -- Duracion maxima permitida para un mute en minutos.
+        MuteAreaMinRadius = 1.0, -- Radio minimo permitido (en metros) para /mutearea.
+        MuteAreaMaxRadius = 100.0 -- Radio maximo permitido (en metros) para /mutearea.
     }
 }
 
