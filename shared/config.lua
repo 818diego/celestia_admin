@@ -11,6 +11,11 @@ Config.AdminCommands = {
     GodArea = {
         MinRadius = 1.0, -- Radio minimo permitido (en metros) para ejecutar /godarea.
         MaxRadius = 9999999.0, -- Radio maximo permitido (en metros) para ejecutar /godarea.
+    },
+    Punishments = {
+        BanTableName = 'celestia_admin_bans', -- Nombre de la tabla SQL donde se guardan los baneos.
+        DefaultKickReason = 'Expulsado por administracion.', -- Razon por defecto para /kick si no se envia texto.
+        DefaultBanReason = 'Baneado por administracion.' -- Razon por defecto para /ban si no se envia texto.
     }
 }
 
