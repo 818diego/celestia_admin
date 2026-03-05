@@ -24,7 +24,12 @@ Config.AdminCommands = {
         MinMuteMinutes = 1, -- Duracion minima permitida para un mute en minutos.
         MaxMuteMinutes = 240, -- Duracion maxima permitida para un mute en minutos.
         MuteAreaMinRadius = 1.0, -- Radio minimo permitido (en metros) para /mutearea.
-        MuteAreaMaxRadius = 100.0 -- Radio maximo permitido (en metros) para /mutearea.
+        MuteAreaMaxRadius = 100.0, -- Radio maximo permitido (en metros) para /mutearea.
+        AdminJail = {
+            Coords = vector4(1737.66, 2635.96, 45.56, 236.48), -- Coordenadas de la prisión.
+            AnimalModel = 'A_C_Chop', -- Ped animal al que se convierte el jugador.
+            Radius = 20.0 -- Radio máximo permitido antes de ser teletransportado de vuelta.
+        }
     },
     Vehicles = {
         DvAreaMinRadius = 1.0, -- Radio minimo permitido (en metros) para /dvarea.

@@ -2,6 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 local warningsByIdentifier = {}
 local mutesByIdentifier = {}
+local jailedPlayers = {}
 
 local function notify(source, message, msgType)
     TriggerClientEvent('QBCore:Notify', source, message, msgType or 'primary')
@@ -177,16 +178,17 @@ AddEventHandler('chatMessage', function(source)
     notify(source, ('Estas muteado. Tiempo restante: %s minuto(s). Motivo: %s'):format(remaining, muteData.reason), 'error')
 end)
 
-QBCore.Commands.Add('adv', 'Advertir a un jugador. Uso: /adv [id] [motivo] (Solo Admin Discord)', {
-    { name = 'id', help = 'ID del jugador objetivo. Ejemplo: /adv 12 Respeta el rol' },
-    { name = 'motivo', help = 'Motivo de la advertencia.' }
+QBCore.Commands.Add('adv', 'Advertir y encarcelar jugador. Uso: /adv [id] [tiempo_min o 0] [motivo]', {
+    { name = 'id', help = 'ID del jugador objetivo' },
+    { name = 'tiempo', help = 'Minutos (0 o vacío = Permanente)' },
+    { name = 'motivo', help = 'Razón de la sanción' }
 }, true, function(source, args)
     if not CheckPermission(source, 'adv') then return end
     local src = source
 
     local targetId = tonumber(args[1])
     if not targetId then
-        notify(src, 'Debes indicar un ID valido. Ejemplo: /adv 12 Respeta el rol', 'error')
+        notify(src, 'Uso: /adv [id] [tiempo] [motivo]', 'error')
         return
     end
 
@@ -198,27 +200,57 @@ QBCore.Commands.Add('adv', 'Advertir a un jugador. Uso: /adv [id] [motivo] (Solo
 
     local targetIdentifier = getPreferredIdentifier(targetId)
     if not targetIdentifier then
-        notify(src, 'No se pudo obtener un identificador del jugador objetivo', 'error')
+        notify(src, 'No se pudo obtener un identificador del jugador', 'error')
         return
     end
 
-    local cfg = getModerationConfig()
-    local reason = table.concat(args, ' ', 2)
+    local minutes = tonumber(args[2]) or 0
+    local reason = table.concat(args, ' ', 3)
     if reason == '' then
+        local cfg = getModerationConfig()
         reason = cfg.DefaultAdvReason
     end
+
+    local expiresAt = (minutes > 0) and (os.time() + (minutes * 60)) or 0
+    
+    jailedPlayers[targetIdentifier] = {
+        expiresAt = expiresAt,
+        reason = reason
+    }
 
     if not warningsByIdentifier[targetIdentifier] then
         warningsByIdentifier[targetIdentifier] = { count = 0 }
     end
-
     warningsByIdentifier[targetIdentifier].count = warningsByIdentifier[targetIdentifier].count + 1
 
-    local warnCount = warningsByIdentifier[targetIdentifier].count
-    local adminName = getSourceName(src)
+    local timeMsg = (minutes > 0) and (minutes .. " minutos") or "Indefinido (Permanente)"
+    TriggerClientEvent('celestia_admin:client:AdminJail', targetId, true, expiresAt, reason)
+    
+    notify(src, ('ID %d encarcelado por %s. Motivo: %s'):format(targetId, timeMsg, reason), 'success')
+end)
 
-    notify(targetId, ('Advertencia de un admin: %s | Total de advertencias: %s'):format(reason, warnCount), 'error')
-    notify(src, ('Advertencia enviada a ID %s. Motivo: %s | Total del jugador: %s'):format(targetId, reason, warnCount), 'success')
+QBCore.Commands.Add('unadv', 'Sacar a un jugador de la prisión administrativa', {
+    { name = 'id', help = 'ID del jugador' }
+}, true, function(source, args)
+    if not CheckPermission(source, 'adv') then return end
+    local src = source
+    local targetId = tonumber(args[1])
+    
+    if not targetId then
+        notify(src, 'ID inválido', 'error')
+        return
+    end
+
+    local targetPlayer = QBCore.Functions.GetPlayer(targetId)
+    local targetIdentifier = targetPlayer and getPreferredIdentifier(targetId)
+
+    if jailedPlayers[targetIdentifier] then
+        jailedPlayers[targetIdentifier] = nil
+        TriggerClientEvent('celestia_admin:client:AdminJail', targetId, false)
+        notify(src, ('ID %d ha sido sacado de la prisión'):format(targetId), 'success')
+    else
+        notify(src, 'El jugador no está en la prisión administrativa', 'error')
+    end
 end)
 
 QBCore.Commands.Add('mute', 'Mutear a un jugador. Uso: /mute [id] [minutos] [motivo] (Solo Admin Discord)', {

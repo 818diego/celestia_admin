@@ -17,7 +17,7 @@ Lista de comandos pendientes por implementar/mejorar en el recurso.
 - [x] `/kick` - Expulsar jugador.
 - [x] `/ban` - Banear jugador.
 - [x] `/unban` - Desbanear jugador.
-- [] `/adv` - Advertir jugador.
+- [x] `/adv` - Advertir jugador.
   - Prision adminsitrativa a unas corrdenadas especificas y no te deje salir, te enviara automatico.
   - Al enviarte a prision te debera convertir en un ped animal (Perro)  
   - Todo esto poner en la config coordenadas donde sera la prision y el ped animal a usar.
