@@ -94,5 +94,25 @@ function IsStaff(source)
     return false
 end
 
+function GetPlayerStaffRole(source)
+    if source == 0 then return "Console" end
+    local roles = playerRoles[source]
+    if not roles then return "Cargando..." end
+
+    local rolePriority = {'admin', 'moderador', 'soporte'}
+    for _, roleKey in ipairs(rolePriority) do
+        local targetRoleId = Config.Discord.Roles[roleKey]
+        if targetRoleId and targetRoleId ~= "" and targetRoleId ~= "ID_AQUÍ" then
+            for _, playerRoleId in ipairs(roles) do
+                if playerRoleId == targetRoleId then
+                    return roleKey:gsub("^%l", string.upper)
+                end
+            end
+        end
+    end
+    return "Usuario"
+end
+
+exports('GetPlayerStaffRole', GetPlayerStaffRole)
 exports('IsStaff', IsStaff)
 exports('HasDiscordRole', HasDiscordRole)

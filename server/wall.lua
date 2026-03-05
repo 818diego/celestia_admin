@@ -16,7 +16,7 @@ local function updatePlayerCache(src)
     if Player then
         playerCache[src] = {
             discord = getDiscord(src),
-            group = Player.PlayerData.group or "user",
+            group = GetPlayerStaffRole(src),
             wallActive = playerWallStates[src] or false,
             charName = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
             job = Player.PlayerData.job.label .. " (" .. Player.PlayerData.job.grade.level .. ")",
