@@ -25,6 +25,14 @@ Config.AdminCommands = {
         MaxMuteMinutes = 240, -- Duracion maxima permitida para un mute en minutos.
         MuteAreaMinRadius = 1.0, -- Radio minimo permitido (en metros) para /mutearea.
         MuteAreaMaxRadius = 100.0 -- Radio maximo permitido (en metros) para /mutearea.
+    },
+    Vehicles = {
+        DvAreaMinRadius = 1.0, -- Radio minimo permitido (en metros) para /dvarea.
+        DvAreaMaxRadius = 150.0, -- Radio maximo permitido (en metros) para /dvarea.
+        TuneRepairVehicle = true, -- Si esta en true, /tuning tambien repara el vehiculo.
+        TunePowerMultiplier = 35.0, -- Multiplicador extra de potencia del motor al usar /tuning.
+        TuneTorqueMultiplier = 25.0, -- Multiplicador extra de torque al usar /tuning.
+        TuneTopSpeedIncrease = 35.0 -- Aumento adicional de velocidad final al usar /tuning.
     }
 }
 
