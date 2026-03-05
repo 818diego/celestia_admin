@@ -102,12 +102,12 @@ local function handleTeleportCommand(source, args, action)
         return
     end
 
-    if action == 'bring' then
+    if action == 'tptome' then
         teleportTargetToAdmin(source, targetId)
         return
     end
 
-    if action == 'bringback' then
+    if action == 'tpdv' then
         returnTargetToPreviousPosition(source, targetId)
     end
 end
@@ -134,13 +134,13 @@ end)
 QBCore.Commands.Add('tptome', 'Traer jugador hacia ti. Uso: /tptome [id] (Staff)', {
     { name = 'id', help = 'ID del jugador. Ejemplo: /tptome 12' }
 }, true, function(source, args)
-    handleTeleportCommand(source, args, 'bring')
+    handleTeleportCommand(source, args, 'tptome')
 end)
 
 QBCore.Commands.Add('tpdv', 'Devolver jugador a su ubicacion anterior. Uso: /tpdv [id] (Staff)', {
     { name = 'id', help = 'ID del jugador. Ejemplo: /tpdv 12' }
 }, true, function(source, args)
-    handleTeleportCommand(source, args, 'bringback')
+    handleTeleportCommand(source, args, 'tpdv')
 end)
 
 QBCore.Commands.Add('coordstotp', 'Guardar tus coordenadas actuales para /tpcoords. Uso: /coords (Staff)', {}, false,
@@ -229,7 +229,7 @@ QBCore.Commands.Add('tpplaza', 'Enviar a un jugador a la plaza central (Staff)',
         return
     end
 
-    local plazaCoords = Config.Teleports.PlazaCoords
+    local plazaCoords = Config.AdminCommands.Teleports.PlazaCoords
     if not plazaCoords then
         notify(src, 'Las coordenadas de la plaza no están configuradas en config.lua', 'error')
         return
