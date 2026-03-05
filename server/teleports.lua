@@ -247,6 +247,12 @@ QBCore.Commands.Add('tpplaza', 'Enviar a un jugador a la plaza central (Staff)',
     notify(targetId, 'Has sido enviado a la Plaza Central por un administrador', 'primary')
 end)
 
+QBCore.Commands.Add('tpway', 'Teletransportarse al punto marcado en el mapa (Staff)', {}, false, function(source)
+    local src = source
+    if not CheckPermission(src, 'tpway') then return end
+    TriggerClientEvent('celestia_admin:client:teleportToWaypoint', src)
+end)
+
 AddEventHandler('playerDropped', function()
     local src = source
     bringBackPositions[src] = nil

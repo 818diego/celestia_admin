@@ -15,6 +15,7 @@ Config.Permissions = {
     ['dvarea'] = {'admin', 'moderador', 'soporte'},
     ['tuning'] = {'admin', 'moderador', 'soporte'},
     ['tpplaza'] = {'admin', 'moderador', 'soporte'},
+    ['tpway'] = {'admin', 'moderador', 'soporte'},
     -- ['kill'] = {'vip'}, -- Seria el mismo permiso que pusieron en Roles del config entre las llaves
 }
 
