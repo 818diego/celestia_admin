@@ -12,32 +12,23 @@ Lista de comandos pendientes por implementar/mejorar en el recurso.
   - Quienes tienen el wall activado
   - ID de Discord del jugador
   - Rango de staff (Pendiente de poner el nombre del rol)
-## Moderacion
-
-- [ ] `/god` - Curar o revivir a un jugador.
-- [ ] `/godarea` - Revivir jugadores dentro de un area.
-- [ ] `/kick` - Expulsar jugador.
-- [ ] `/ban` - Banear jugador.
-- [ ] `/adv` - Advertir jugador.
-- [ ] `/unban` - Desbanear jugador.
-- [ ] `/mute` - Mutear a un jugador.
-- [ ] `/mutearea` - Mutear jugadores dentro de un area cercana.
-
-## Vehiculos
-
-- [ ] `/car` - Sacar coche.
-- [ ] `/dv` - Borrar coche.
-- [ ] `/dvarea` - Borrar coches dentro de un area.
-- [ ] `/fix` - Reparar vehiculo.
-- [ ] `/tuning` - Tunear coche al maximo.
+- [x] `/god` - Curar o revivir a un jugador.
+- [x] `/godarea` - Revivir jugadores dentro de un area.
+- [x] `/kick` - Expulsar jugador.
+- [x] `/ban` - Banear jugador.
+- [x] `/unban` - Desbanear jugador.
+- [x] `/adv` - Advertir jugador.
+- [x] `/mute` - Mutear a un jugador.
+- [x] `/mutearea` - Mutear jugadores dentro de un area cercana.
+- [x] `/dvarea` - Borrar coches dentro de un area.
+- [x] `/tuning` - Tunear coche al maximo en cuestion de rendimiento.
+- [x] `/tptome` - Traer jugador hacia ti.
+- [x] `/tpdv` - Devolver jugador a su ubicacion anterior.
+- [x] `/coords` - Copiar tus coordenadas actuales.
+- [x] `/tpcoords` - Teletransportar a un jugador a coordenadas copiadas previamente.
 
 ## Teletransporte y utilidad
 
-- [ ] `/tp` - Teletransportarse a un jugador.
-- [ ] `/tptome` - Traer jugador hacia ti.
-- [ ] `/tpdv` - Devolver jugador a su ubicacion anterior.
-- [ ] `/coords` - Copiar tus coordenadas actuales.
-- [ ] `/tpcoords` - Teletransportar a un jugador a coordenadas copiadas previamente.
 - [ ] `/spectar` - Espectear a un jugador.
 - [ ] `/tpway` - Teletransportarse a un punto marcado en el mapa.
 - [ ] `/tpplaza` - Enviar a un jugador a la plaza central.
