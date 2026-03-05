@@ -23,4 +23,8 @@ dependicies {
     'ox_lib',
 }
 
-files { }
+escrow_ignore {
+    'shared/**.lua',
+    'sql/**.sql',
+    '**.md'
+}
