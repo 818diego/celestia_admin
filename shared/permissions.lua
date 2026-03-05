@@ -18,6 +18,7 @@ Config.Permissions = {
     ['tpway'] = {'admin', 'moderador', 'soporte'},
     ['freeze'] = {'admin', 'moderador', 'soporte'},
     ['unfreeze'] = {'admin', 'moderador', 'soporte'},
+    ['spectate'] = {'admin', 'moderador', 'soporte'},
     -- ['kill'] = {'vip'}, -- Seria el mismo permiso que pusieron en Roles del config entre las llaves
 }
 
