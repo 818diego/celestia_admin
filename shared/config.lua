@@ -33,6 +33,9 @@ Config.AdminCommands = {
         TunePowerMultiplier = 35.0, -- Multiplicador extra de potencia del motor al usar /tuning.
         TuneTorqueMultiplier = 25.0, -- Multiplicador extra de torque al usar /tuning.
         TuneTopSpeedIncrease = 35.0 -- Aumento adicional de velocidad final al usar /tuning.
+    },
+    Teleports = {
+        PlazaCoords = vector4(156.76, -994.3, 29.35, 254.96), -- Coordenadas de la plaza central (Legion Square por defecto)
     }
 }
 

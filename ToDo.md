@@ -31,4 +31,4 @@ Lista de comandos pendientes por implementar/mejorar en el recurso.
 
 - [ ] `/spectar` - Espectear a un jugador.
 - [ ] `/tpway` - Teletransportarse a un punto marcado en el mapa.
-- [ ] `/tpplaza` - Enviar a un jugador a la plaza central.
+- [x] `/tpplaza` - Enviar a un jugador a la plaza central.

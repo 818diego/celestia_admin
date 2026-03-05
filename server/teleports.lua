@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+﻿local QBCore = exports['qb-core']:GetCoreObject()
 local bringBackPositions = {}
 local copiedCoordsByAdmin = {}
 
@@ -199,6 +199,48 @@ QBCore.Commands.Add('tpcoords', 'Teletransportar jugador a coordenadas guardadas
 
     notify(src, ('Has teletransportado al jugador ID %s a las coordenadas guardadas'):format(targetId), 'success')
     notify(targetId, 'Has sido teletransportado por un administrador', 'primary')
+end)
+
+QBCore.Commands.Add('tpplaza', 'Enviar a un jugador a la plaza central (Staff)', {
+    {name = 'id', help = 'ID del jugador. Ejemplo: /tpplaza 12'}
+}, true, function(source, args)
+    if not CheckPermission(source, 'tpplaza') then return end
+    local src = source
+
+    local targetId = tonumber(args[1])
+    if not targetId then
+        notify(src, 'Debes indicar un ID valido. Ejemplo: /tpplaza 12', 'error')
+        return
+    end
+
+    local targetPlayer = QBCore.Functions.GetPlayer(targetId)
+    if not targetPlayer then
+        notify(src, 'Jugador no encontrado', 'error')
+        return
+    end
+
+    local targetPed = GetPlayerPed(targetId)
+    if not targetPed or targetPed == 0 or not DoesEntityExist(targetPed) then
+        notify(src, 'No se pudo obtener el ped del jugador', 'error')
+        return
+    end
+
+    local plazaCoords = Config.Teleports.PlazaCoords
+    if not plazaCoords then
+        notify(src, 'Las coordenadas de la plaza no están configuradas en config.lua', 'error')
+        return
+    end
+
+    if not savePreviousPosition(targetId) then
+        notify(src, 'No se pudo guardar la posicion anterior del jugador', 'error')
+        return
+    end
+
+    SetEntityCoords(targetPed, plazaCoords.x, plazaCoords.y, plazaCoords.z)
+    SetEntityHeading(targetPed, plazaCoords.w or 0.0)
+
+    notify(src, ('Has enviado al jugador ID %d a la Plaza Central'):format(targetId), 'success')
+    notify(targetId, 'Has sido enviado a la Plaza Central por un administrador', 'primary')
 end)
 
 AddEventHandler('playerDropped', function()
