@@ -33,7 +33,6 @@ local function FetchPlayerRoles(source)
             local data = json.decode(result)
             if data and data.roles then
                 playerRoles[source] = data.roles
-                print(("^2[celestia_admin] Roles cargados para %s^7"):format(GetPlayerName(source)))
             end
         else
             print(("^1[celestia_admin] ERROR: No se pudieron obtener roles para %s (Status: %s)^7"):format(GetPlayerName(source), status))

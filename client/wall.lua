@@ -45,11 +45,12 @@ local function startWallThread()
                             local distance = #(playerCoords - targetCoords)
                             
                             if distance <= maxDistance then
-                        local groupLabel = string.format(" [~r~%s~w~]", data.group:gsub("^%l", string.upper))
-                        local infoStr = string.format("[~r~%s~w~] %s (~y~%s~w~)%s [~r~HP: %d%%~w~] [~b~AP: %d%%~w~]", 
-                            tostring(data.id), tostring(data.charName), tostring(data.job), groupLabel, math.floor(math.max(0, data.health)), math.floor(data.armor or 0))
-                        local moneyStr = string.format("~g~Cash: $%d ~w~| ~b~Bank: $%d", 
-                            math.floor(data.cash or 0), math.floor(data.bank or 0))
+                                local wallIndicator = data.wallActive and " ~y~[WALL ON]~w~" or ""
+                                local groupLabel = string.format(" [~r~%s~w~]%s", data.group, wallIndicator)
+                                local infoStr = string.format("[~r~%s~w~] %s (~y~%s~w~)%s [~r~HP: %d%%~w~] [~b~AP: %d%%~w~]", 
+                                    tostring(data.id), tostring(data.charName), tostring(data.job), groupLabel, math.floor(math.max(0, data.health)), math.floor(data.armor or 0))
+                                local moneyStr = string.format("~g~Cash: $%d ~w~| ~b~Bank: $%d", 
+                                    math.floor(data.cash or 0), math.floor(data.bank or 0))
                                 DrawText3D(targetCoords.x, targetCoords.y, targetCoords.z + 1.2, infoStr)
                                 DrawText3D(targetCoords.x, targetCoords.y, targetCoords.z + 1.1, moneyStr)
                             end

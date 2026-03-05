@@ -30,10 +30,10 @@ QBCore.Commands.Add('wall', 'Activar/Desactivar Wall (Staff)', {}, false, functi
     if not CheckPermission(source, 'wall') then return end
     playerWallStates[source] = not playerWallStates[source]
     if not playerCache[source] then updatePlayerCache(source) end
-        playerCache[source].wallActive = playerWallStates[source]
-        TriggerClientEvent('celestia_admin:client:toggleWall', source, playerWallStates[source])
-        local msg = playerWallStates[source] and "Activado" or "Desactivado"
-        TriggerClientEvent('QBCore:Notify', source, "Wall " .. msg, "success")
+    playerCache[source].wallActive = playerWallStates[source]
+    TriggerClientEvent('celestia_admin:client:toggleWall', source, playerWallStates[source])    
+    local msg = playerWallStates[source] and "Activado" or "Desactivado"
+    TriggerClientEvent('QBCore:Notify', source, "Wall " .. msg, "success")
 end)
 
 RegisterNetEvent('celestia_admin:server:requestPlayersData', function()
