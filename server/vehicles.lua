@@ -3,10 +3,6 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local pendingDvAreaRequests = {}
 local pendingTuneRequests = {}
 
-local function hasAdminRole(source)
-    return HasDiscordRole(source, 'admin')
-end
-
 local function notify(source, message, msgType)
     TriggerClientEvent('QBCore:Notify', source, message, msgType or 'primary')
 end
@@ -78,11 +74,8 @@ end)
 QBCore.Commands.Add('dvarea', 'Borrar vehiculos dentro de un radio. Uso: /dvarea [metros] (Solo Admin Discord)', {
     { name = 'metros', help = 'Radio en metros. Ejemplo: /dvarea 30' }
 }, true, function(source, args)
+    if not CheckPermission(source, 'dvarea') then return end
     local src = source
-    if not hasAdminRole(src) then
-        notify(src, 'No tienes permisos para usar /dvarea', 'error')
-        return
-    end
 
     local radius = tonumber(args[1])
     local cfg = getVehicleConfig()
@@ -104,11 +97,8 @@ QBCore.Commands.Add('dvarea', 'Borrar vehiculos dentro de un radio. Uso: /dvarea
 end)
 
 QBCore.Commands.Add('tuning', 'Tunear al maximo el vehiculo actual (rendimiento). Uso: /tuning (Solo Admin Discord)', {}, false, function(source)
+    if not CheckPermission(source, 'tuning') then return end
     local src = source
-    if not hasAdminRole(src) then
-        notify(src, 'No tienes permisos para usar /tuning', 'error')
-        return
-    end
 
     local cfg = getVehicleConfig()
     local requestId = ('tuning:%s:%s'):format(src, os.time())

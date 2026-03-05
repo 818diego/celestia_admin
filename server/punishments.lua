@@ -1,9 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-local function hasAdminRole(source)
-    return HasDiscordRole(source, 'admin')
-end
-
 local function notify(source, message, msgType)
     TriggerClientEvent('QBCore:Notify', source, message, msgType or 'primary')
 end
@@ -128,11 +124,8 @@ QBCore.Commands.Add('kick', 'Expulsar a un jugador. Uso: /kick [id] [razon] (Sol
     { name = 'id', help = 'ID del jugador objetivo. Ejemplo: /kick 12 Troll' },
     { name = 'razon', help = 'Razon opcional del kick.' }
 }, true, function(source, args)
+    if not CheckPermission(source, 'kick') then return end
     local src = source
-    if not hasAdminRole(src) then
-        notify(src, 'No tienes permisos para usar /kick', 'error')
-        return
-    end
 
     local targetId = tonumber(args[1])
     if not targetId then
@@ -163,11 +156,8 @@ QBCore.Commands.Add('ban', 'Banear a un jugador. Uso: /ban [id] [razon] (Solo Ad
     { name = 'id', help = 'ID del jugador objetivo. Ejemplo: /ban 12 Uso de cheats' },
     { name = 'razon', help = 'Razon opcional del ban.' }
 }, true, function(source, args)
+    if not CheckPermission(source, 'ban') then return end
     local src = source
-    if not hasAdminRole(src) then
-        notify(src, 'No tienes permisos para usar /ban', 'error')
-        return
-    end
 
     local targetId = tonumber(args[1])
     if not targetId then
@@ -216,11 +206,8 @@ end)
 QBCore.Commands.Add('unban', 'Desbanear por Ban ID o identificador. Uso: /unban [banId|identifier] (Solo Admin Discord)', {
     { name = 'banId_o_identifier', help = 'Ejemplo: /unban 15 o /unban license:xxxx' }
 }, true, function(source, args)
+    if not CheckPermission(source, 'unban') then return end
     local src = source
-    if not hasAdminRole(src) then
-        notify(src, 'No tienes permisos para usar /unban', 'error')
-        return
-    end
 
     local token = args[1]
     if not token or token == '' then

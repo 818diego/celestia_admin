@@ -1,9 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-local function hasAdminRole(source)
-    return HasDiscordRole(source, 'admin')
-end
-
 local function notify(source, message, msgType)
     TriggerClientEvent('QBCore:Notify', source, message, msgType or 'primary')
 end
@@ -41,11 +37,8 @@ local function getRadiusLimits()
 end
 
 QBCore.Commands.Add('god', 'Curar o revivir a un jugador por ID (Solo Admin Discord)', {{name = 'id', help = 'ID del jugador'}}, true, function(source, args)
+    if not CheckPermission(source, 'god') then return end
     local src = source
-    if not hasAdminRole(src) then
-        notify(src, 'No tienes permisos para usar /god', 'error')
-        return
-    end
 
     local targetId = tonumber(args[1])
     if not targetId then
@@ -70,11 +63,8 @@ QBCore.Commands.Add('god', 'Curar o revivir a un jugador por ID (Solo Admin Disc
 end)
 
 QBCore.Commands.Add('godarea', 'Revivir jugadores en un radio en metros (Solo Admin Discord)', {{name = 'radio', help = 'Radio en metros'}}, true, function(source, args)
+    if not CheckPermission(source, 'godarea') then return end
     local src = source
-    if not hasAdminRole(src) then
-        notify(src, 'No tienes permisos para usar /godarea', 'error')
-        return
-    end
 
     local radius = tonumber(args[1])
     local minRadius, maxRadius = getRadiusLimits()

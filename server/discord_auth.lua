@@ -1,4 +1,5 @@
 local playerRoles = {}
+local fetchingRoles = {}
 
 local function GetDiscordId(source)
     for _, id in ipairs(GetPlayerIdentifiers(source)) do
@@ -12,18 +13,27 @@ end
 local function FetchPlayerRoles(source)
     local discordId = GetDiscordId(source)
     if not discordId then return end
+    
+    if fetchingRoles[source] then return end
+    fetchingRoles[source] = true
+
     local guildId = Config.Discord.GuildId
     local botToken = Config.Discord.BotToken
+
     if guildId == "" or botToken == "" then
         print("^1[celestia_admin] ERROR: BotToken o GuildId no configurados en discord.lua^7")
+        fetchingRoles[source] = nil
         return
     end
+
     local endpoint = ("https://discord.com/api/v10/guilds/%s/members/%s"):format(guildId, discordId)
     PerformHttpRequest(endpoint, function(status, result, headers)
+        fetchingRoles[source] = nil
         if status == 200 then
             local data = json.decode(result)
             if data and data.roles then
                 playerRoles[source] = data.roles
+                print(("^2[celestia_admin] Roles cargados para %s^7"):format(GetPlayerName(source)))
             end
         else
             print(("^1[celestia_admin] ERROR: No se pudieron obtener roles para %s (Status: %s)^7"):format(GetPlayerName(source), status))
@@ -39,6 +49,7 @@ end)
 AddEventHandler('playerDropped', function()
     local src = source
     playerRoles[src] = nil
+    fetchingRoles[src] = nil
 end)
 
 RegisterNetEvent('celestia_admin:server:refreshRoles', function()
@@ -53,16 +64,14 @@ function HasDiscordRole(source, roleKey)
         return false 
     end
     local targetRoleId = Config.Discord.Roles[roleKey]
-    if not targetRoleId or targetRoleId == "" then
-        TriggerClientEvent('QBCore:Notify', source, "No tienes permisos suficientes (Rol no configurado)", "error")
-        return false 
-    end
+    if not targetRoleId or targetRoleId == "" then return false end
+
     for _, playerRoleId in ipairs(roles) do
         if playerRoleId == targetRoleId then
             return true
         end
     end
-    TriggerClientEvent('QBCore:Notify', source, "No tienes permisos suficientes para realizar esta acción", "error")
+
     return false
 end
 

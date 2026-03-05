@@ -92,10 +92,7 @@ local function returnTargetToPreviousPosition(adminId, targetId)
 end
 
 local function handleTeleportCommand(source, args, action)
-    if not canUseTeleport(source) then
-        notify(source, 'No tienes permisos de staff', 'error')
-        return
-    end
+    if not CheckPermission(source, action) then return end
 
     local targetId = tonumber(args[1])
     if not targetId then
@@ -145,11 +142,8 @@ QBCore.Commands.Add('tpdv', 'Devolver jugador a su ubicacion anterior. Uso: /tpd
 end)
 
 QBCore.Commands.Add('coordstotp', 'Guardar tus coordenadas actuales para /tpcoords. Uso: /coords (Staff)', {}, false, function(source)
+    if not CheckPermission(source, 'tpcoords') then return end
     local src = source
-    if not canUseTeleport(src) then
-        notify(src, 'No tienes permisos de staff', 'error')
-        return
-    end
 
     local coords = getPlayerCoords(src)
     if not coords then
@@ -169,11 +163,8 @@ end)
 QBCore.Commands.Add('tpcoords', 'Teletransportar jugador a coordenadas guardadas con /coords. Uso: /tpcoords [id] (Staff)', {
     {name = 'id', help = 'ID del jugador. Ejemplo: /tpcoords 12'}
 }, true, function(source, args)
+    if not CheckPermission(source, 'tpcoords') then return end
     local src = source
-    if not canUseTeleport(src) then
-        notify(src, 'No tienes permisos de staff', 'error')
-        return
-    end
 
     local savedCoords = copiedCoordsByAdmin[src]
     if not savedCoords then

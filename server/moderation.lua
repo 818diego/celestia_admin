@@ -3,10 +3,6 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local warningsByIdentifier = {}
 local mutesByIdentifier = {}
 
-local function hasAdminRole(source)
-    return HasDiscordRole(source, 'admin')
-end
-
 local function notify(source, message, msgType)
     TriggerClientEvent('QBCore:Notify', source, message, msgType or 'primary')
 end
@@ -181,11 +177,8 @@ QBCore.Commands.Add('adv', 'Advertir a un jugador. Uso: /adv [id] [motivo] (Solo
     { name = 'id', help = 'ID del jugador objetivo. Ejemplo: /adv 12 Respeta el rol' },
     { name = 'motivo', help = 'Motivo de la advertencia.' }
 }, true, function(source, args)
+    if not CheckPermission(source, 'adv') then return end
     local src = source
-    if not hasAdminRole(src) then
-        notify(src, 'No tienes permisos para usar /adv', 'error')
-        return
-    end
 
     local targetId = tonumber(args[1])
     if not targetId then
@@ -229,11 +222,8 @@ QBCore.Commands.Add('mute', 'Mutear a un jugador. Uso: /mute [id] [minutos] [mot
     { name = 'minutos', help = 'Duracion en minutos (opcional).' },
     { name = 'motivo', help = 'Motivo del mute (opcional).' }
 }, true, function(source, args)
+    if not CheckPermission(source, 'mute') then return end
     local src = source
-    if not hasAdminRole(src) then
-        notify(src, 'No tienes permisos para usar /mute', 'error')
-        return
-    end
 
     local targetId = tonumber(args[1])
     if not targetId then
@@ -268,11 +258,8 @@ QBCore.Commands.Add('mutearea', 'Mutear jugadores dentro de un area. Uso: /mutea
     { name = 'minutos', help = 'Duracion en minutos (opcional).' },
     { name = 'motivo', help = 'Motivo del mute (opcional).' }
 }, true, function(source, args)
+    if not CheckPermission(source, 'mutearea') then return end
     local src = source
-    if not hasAdminRole(src) then
-        notify(src, 'No tienes permisos para usar /mutearea', 'error')
-        return
-    end
 
     local radius = tonumber(args[1])
     local cfg = getModerationConfig()

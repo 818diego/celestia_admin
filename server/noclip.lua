@@ -1,10 +1,8 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 QBCore.Commands.Add('noclip', 'Activar/Desactivar NoClip (Staff)', {}, false, function(source, args)
-    local canNoclip = HasDiscordRole(source, 'admin')
-    if canNoclip then
-        TriggerClientEvent('celestia_admin:client:toggleNoClip', source)
-    end
+    if not CheckPermission(source, 'noclip') then return end
+    TriggerClientEvent('celestia_admin:client:toggleNoClip', source)
 end)
 
 RegisterNetEvent('celestia_admin:server:noclipLog', function(isEnabled)
