@@ -32,7 +32,7 @@ Lista de comandos pendientes por implementar/mejorar en el recurso.
 - [x] `/tpcoords` - Teletransportar a un jugador a coordenadas copiadas previamente.
 - [ ] `/frezee` - Congelar un jugador.
 - [ ] `/unfrezee` - Descongelar un jugador.
-- [ ] Cada vez que se desconecte un jugador, debera aparecer la razon con un drawtext.
+- [x] Cada vez que se desconecte un jugador, debera aparecer la razon con un drawtext o text3d lo que sea
 
 ## Teletransporte y utilidad
 

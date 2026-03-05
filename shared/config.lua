@@ -36,6 +36,10 @@ Config.AdminCommands = {
     },
     Teleports = {
         PlazaCoords = vector4(156.76, -994.3, 29.35, 254.96), -- Coordenadas de la plaza central (Legion Square por defecto)
+    },
+    DisconnectLogs = {
+        VisibleTime = 60, -- Tiempo en segundos que se mostrara el log en el mundo.
+        MaxDistance = 20.0 -- Distancia maxima en metros para ver los logs de desconexion.
     }
 }
 
