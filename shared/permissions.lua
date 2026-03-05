@@ -16,6 +16,8 @@ Config.Permissions = {
     ['tuning'] = {'admin', 'moderador', 'soporte'},
     ['tpplaza'] = {'admin', 'moderador', 'soporte'},
     ['tpway'] = {'admin', 'moderador', 'soporte'},
+    ['freeze'] = {'admin', 'moderador', 'soporte'},
+    ['unfreeze'] = {'admin', 'moderador', 'soporte'},
     -- ['kill'] = {'vip'}, -- Seria el mismo permiso que pusieron en Roles del config entre las llaves
 }
 

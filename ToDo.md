@@ -30,8 +30,8 @@ Lista de comandos pendientes por implementar/mejorar en el recurso.
 - [x] `/tpdv` - Devolver jugador a su ubicacion anterior.
 - [x] `/coords` - Copiar tus coordenadas actuales.
 - [x] `/tpcoords` - Teletransportar a un jugador a coordenadas copiadas previamente.
-- [ ] `/frezee` - Congelar un jugador.
-- [ ] `/unfrezee` - Descongelar un jugador.
+- [x] `/frezee` - Congelar un jugador.
+- [x] `/unfrezee` - Descongelar un jugador.
 - [x] Cada vez que se desconecte un jugador, debera aparecer la razon con un drawtext o text3d lo que sea
 
 ## Teletransporte y utilidad
