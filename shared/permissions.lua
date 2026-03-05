@@ -13,7 +13,8 @@ Config.Permissions = {
     ['tpdv'] = {'admin', 'moderador', 'soporte'},
     ['tpcoords'] = {'admin', 'moderador', 'soporte'},
     ['dvarea'] = {'admin', 'moderador', 'soporte'},
-    ['tuning'] = {'admin', 'moderador', 'soporte'},
+    ['tuning'] = {'admin', 'moderador', 'soporte'},    
+    -- ['kill'] = {'vip'}, -- Seria el mismo permiso que pusieron en Roles del config entre las llaves
 }
 
 function CheckPermission(source, commandName)
