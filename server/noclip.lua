@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-QBCore.Commands.Add('noclip', 'Activar/Desactivar NoClip (Staff)', {}, false, function(source, args)
+QBCore.Commands.Add('nc', 'Activar/Desactivar NoClip (Staff)', {}, false, function(source, args)
     if not CheckPermission(source, 'noclip') then return end
     TriggerClientEvent('celestia_admin:client:toggleNoClip', source)
 end)

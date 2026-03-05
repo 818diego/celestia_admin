@@ -17,7 +17,11 @@ Lista de comandos pendientes por implementar/mejorar en el recurso.
 - [x] `/kick` - Expulsar jugador.
 - [x] `/ban` - Banear jugador.
 - [x] `/unban` - Desbanear jugador.
-- [x] `/adv` - Advertir jugador.
+- [] `/adv` - Advertir jugador.
+  - Prision adminsitrativa a unas corrdenadas especificas y no te deje salir, te enviara automatico.
+  - Al enviarte a prision te debera convertir en un ped animal (Perro)
+  - Todo esto poner en la config coordenadas donde sera la prision y el ped animal a usar.
+  - Que sea inmune a daños y a todo. 
 - [x] `/mute` - Mutear a un jugador.
 - [x] `/mutearea` - Mutear jugadores dentro de un area cercana.
 - [x] `/dvarea` - Borrar coches dentro de un area.

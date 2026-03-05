@@ -83,6 +83,7 @@ local function setMuteForSource(targetSource, reason, adminName, minutes)
     }
 
     applyVoiceMute(targetSource, true)
+    TriggerClientEvent('celestia_admin:client:SetMuteStatus', targetSource, true, expiresAt, reason)
     notify(targetSource, ('Has sido muteado por %s durante %s minuto(s). Motivo: %s'):format(adminName, minutes, reason), 'error')
     return true
 end
@@ -101,6 +102,7 @@ local function isMutedBySource(playerSource)
     if os.time() >= muteData.expiresAt then
         mutesByIdentifier[identifier] = nil
         applyVoiceMute(playerSource, false)
+        TriggerClientEvent('celestia_admin:client:SetMuteStatus', playerSource, false)
         notify(playerSource, 'Tu mute ha expirado.', 'success')
         return false
     end
@@ -141,6 +143,7 @@ CreateThread(function()
                 for _, playerSrc in ipairs(QBCore.Functions.GetPlayers()) do
                     if getPreferredIdentifier(playerSrc) == identifier then
                         applyVoiceMute(playerSrc, false)
+                        TriggerClientEvent('celestia_admin:client:SetMuteStatus', playerSrc, false)
                         notify(playerSrc, 'Tu mute ha expirado.', 'success')
                         break
                     end
@@ -158,6 +161,7 @@ AddEventHandler('playerJoining', function()
     if muted then
         applyVoiceMute(src, true)
         local remaining = math.max(1, math.ceil((muteData.expiresAt - os.time()) / 60))
+        TriggerClientEvent('celestia_admin:client:SetMuteStatus', src, true, muteData.expiresAt, muteData.reason)
         notify(src, ('Sigues muteado. Tiempo restante: %s minuto(s). Motivo: %s'):format(remaining, muteData.reason), 'error')
     end
 end)
@@ -291,13 +295,15 @@ QBCore.Commands.Add('mutearea', 'Mutear jugadores dentro de un area. Uso: /mutea
     local mutedCount = 0
 
     for _, playerSrc in ipairs(QBCore.Functions.GetPlayers()) do
-        local targetPed = GetPlayerPed(playerSrc)
-        if targetPed ~= 0 and DoesEntityExist(targetPed) then
-            local distance = #(adminCoords - GetEntityCoords(targetPed))
-            if distance <= radius then
-                local ok = setMuteForSource(playerSrc, reason, adminName, minutes)
-                if ok then
-                    mutedCount = mutedCount + 1
+        if playerSrc ~= src then
+            local targetPed = GetPlayerPed(playerSrc)
+            if targetPed ~= 0 and DoesEntityExist(targetPed) then
+                local distance = #(adminCoords - GetEntityCoords(targetPed))
+                if distance <= radius then
+                    local ok = setMuteForSource(playerSrc, reason, adminName, minutes)
+                    if ok then
+                        mutedCount = mutedCount + 1
+                    end
                 end
             end
         end
@@ -309,4 +315,35 @@ QBCore.Commands.Add('mutearea', 'Mutear jugadores dentro de un area. Uso: /mutea
     end
 
     notify(src, ('/mutearea aplicado: %s jugador(es) muteados por %s minuto(s).'):format(mutedCount, minutes), 'success')
+end)
+
+QBCore.Commands.Add('unmute', 'Quitar mute a un jugador. Uso: /unmute [id] (Solo Admin Discord)', {
+    { name = 'id', help = 'ID del jugador objetivo.' }
+}, true, function(source, args)
+    if not CheckPermission(source, 'mute') then return end
+    local src = source
+
+    local targetId = tonumber(args[1])
+    if not targetId then
+        notify(src, 'Debes indicar un ID valido.', 'error')
+        return
+    end
+
+    local identifier = getPreferredIdentifier(targetId)
+    if not identifier then
+        notify(src, 'No se pudo obtener el identificador del jugador.', 'error')
+        return
+    end
+
+    if not mutesByIdentifier[identifier] then
+        notify(src, 'El jugador no esta muteado.', 'error')
+        return
+    end
+
+    mutesByIdentifier[identifier] = nil
+    applyVoiceMute(targetId, false)
+    TriggerClientEvent('celestia_admin:client:SetMuteStatus', targetId, false)
+    
+    notify(targetId, 'Tu mute ha sido retirado por un administrador.', 'success')
+    notify(src, ('Mute retirado a ID %s.'):format(targetId), 'success')
 end)
