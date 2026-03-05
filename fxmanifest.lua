@@ -1,5 +1,3 @@
-shared_script '@WaveShield/resource/include.lua'
-
 fx_version 'cerulean'
 author 'Dalton Life'
 game 'gta5'
