@@ -19,7 +19,7 @@ Lista de comandos pendientes por implementar/mejorar en el recurso.
 - [x] `/unban` - Desbanear jugador.
 - [] `/adv` - Advertir jugador.
   - Prision adminsitrativa a unas corrdenadas especificas y no te deje salir, te enviara automatico.
-  - Al enviarte a prision te debera convertir en un ped animal (Perro)
+  - Al enviarte a prision te debera convertir en un ped animal (Perro)  
   - Todo esto poner en la config coordenadas donde sera la prision y el ped animal a usar.
   - Que sea inmune a daños y a todo. 
 - [x] `/mute` - Mutear a un jugador.
@@ -30,6 +30,9 @@ Lista de comandos pendientes por implementar/mejorar en el recurso.
 - [x] `/tpdv` - Devolver jugador a su ubicacion anterior.
 - [x] `/coords` - Copiar tus coordenadas actuales.
 - [x] `/tpcoords` - Teletransportar a un jugador a coordenadas copiadas previamente.
+- [ ] `/frezee` - Congelar un jugador.
+- [ ] `/unfrezee` - Descongelar un jugador.
+- [ ] Cada vez que se desconecte un jugador, debera aparecer la razon con un drawtext.
 
 ## Teletransporte y utilidad
 
